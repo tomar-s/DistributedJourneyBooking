@@ -12,17 +12,23 @@ mydb = mysql.connector.connect(
 )
 
 mycursor = mydb.cursor()
-mycursor.execute("SET time_zone='+01:00'")
-query = "INSERT INTO trip_details (tripId, owner_unique_Id, source, destination, route_taken, vehicle_number) VALUES (%s, %s,%s, %s,%s, %s)"
-val = ("14", "RD", "Dublin", "Galway", "NH4", "AR4789")
-mycursor.execute(query, val)
 
-mydb.commit()
+def get_route_list(s, d):
+  query = "select routeId from route_details where source LIKE '{}' and destination LIKE '{}'".format(s, d)
+  mycursor.execute(query)
+  number_of_rows = 0
+  route_list = []
+  for x in mycursor:
+    for _x in x:
+      route_list.append(_x)
+      break
+    number_of_rows = number_of_rows + 1
+  print(number_of_rows, "routes found.")
+  return route_list
 
-number_of_rows = 0
-mycursor.execute("SELECT * FROM trip_details")
 
-for x in mycursor:
-  print(x)
-  number_of_rows = number_of_rows + 1
-print(number_of_rows, "record(s) inserted.")
+def main():
+    print(get_route_list("Dublin", "Galway"))
+
+if __name__ == "__main__":
+    main()
