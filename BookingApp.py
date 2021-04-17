@@ -13,6 +13,14 @@ def route_list():
     route_list = minion.get_route_list(source, destination)
     return json.dumps(route_list)
 
+@app.route('/route_avail')
+def route_avail():
+    route_id = request.args.get('route')
+    timeslot = request.args.get('timeslot')
+    date_requested = request.args.get('date')
+    route_avail = minion.update_route_info(timeslot, route_id, date_requested)
+    return json.dumps(route_avail)
+
 @app.route('/health')
 def healthcheck():
     with app.app_context():
