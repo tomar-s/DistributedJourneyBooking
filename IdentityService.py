@@ -1,13 +1,9 @@
 import mysql.connector
 import uuid
 import redis_connector as cache
+import DatabaseConnector as db
 
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="admin",
-  password="admin",
-  database="mydatabase"
-)
+mydb = db.get_Connection()
 
 mycursor = mydb.cursor()
 

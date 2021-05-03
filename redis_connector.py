@@ -2,15 +2,10 @@ import redis
 import IdentityService as identity
 from datetime import timedelta
 import mysql.connector
+import DatabaseConnector as db
 
+mydb = db.get_Connection()
 r = redis.Redis(host='localhost', port=6379, db=0)
-
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="admin",
-  password="admin",
-  database="mydatabase"
-)
 
 mycursor = mydb.cursor()
 
