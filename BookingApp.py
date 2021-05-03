@@ -2,24 +2,74 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 import Minion as minion
+import IdentityService as identity
 import json
+import Constants as constants
 
 app = Flask(__name__)
 
-@app.route('/route_list')
+@app.route('/route_list',methods=['POST'])
 def route_list():
-    source = request.args.get('source')
-    destination = request.args.get('destination')
-    route_list = minion.get_route_list(source, destination)
-    return json.dumps(route_list)
 
-@app.route('/route_avail')
+    client_json = request.get_json(force=True)
+
+    user = client_json['user']
+    token = client_json['token']
+    source = client_json['source']
+    destination = client_json['destination']
+
+    route_list = minion.get_route_list(user, token, source, destination)
+    if route_list == constants.Error_Code_403:
+        return jsonify(
+            errorMessage=constants.Error_Code_403
+    ), 403
+    else:
+        return jsonify(
+                route_list=route_list
+        ), 200
+
+@app.route('/register',methods=['POST'])
+def register():
+
+    client_json = request.get_json(force=True)
+
+    userId = client_json['user']
+
+    user_token = identity.register_user(userId)
+    if user_token is None:
+        return jsonify(
+            status="Registration Not Successful, username not available"
+    )  
+    else:
+        return jsonify(
+            status="Registration Successful",
+            userToken = user_token
+    )
+
+@app.route('/route_avail', methods=['POST'])
 def route_avail():
-    route_id = request.args.get('route')
-    timeslot = request.args.get('timeslot')
-    date_requested = request.args.get('date')
-    route_avail = minion.update_route_info(timeslot, route_id, date_requested)
-    return json.dumps(route_avail)
+
+    client_json = request.get_json(force=True)
+
+    route_id = client_json['route']
+    timeslot = client_json['timeslot']
+    date_requested = client_json['date']
+    user = client_json['user']
+    token = client_json['token']
+    source = client_json['source']
+    destination = client_json['destination']
+    vehicle_number = client_json['vehicle_number']
+    
+    route_avail = minion.update_route_info(user, token, source, destination, vehicle_number, timeslot, route_id, date_requested)
+    res = jsonify(
+        passcode=route_avail
+    )
+    if route_avail == constants.Error_Code_403:
+        return jsonify(
+            errorMessage=constants.Error_Code_403
+    ), 403
+    else:
+        return res, 200
 
 @app.route('/health')
 def healthcheck():

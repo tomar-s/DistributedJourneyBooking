@@ -1,5 +1,37 @@
 import redis
+import IdentityService as identity
+from datetime import timedelta
+import mysql.connector
+
 r = redis.Redis(host='localhost', port=6379, db=0)
-r.mset({"Croatia": "Zagreb", "Bahamas": "Nassau"})
-value = r.get("Bahamas")
-print(value)
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="admin",
+  password="admin",
+  database="mydatabase"
+)
+
+mycursor = mydb.cursor()
+
+def get_token(userId):
+    query = "select user_token from user_profile where owner_unique_Id LIKE '{}'".format(userId)
+    mycursor.execute(query)
+    saved_token = None
+    for x in mycursor:
+        for _x in x:
+            saved_token = _x
+            # print("token: ", saved_token)
+    return saved_token
+
+def check_cache_user_token(userId):
+    value = r.get(userId)
+    # print("Found cached User_token")
+    if value is None:
+        token = get_token(userId)
+        r.setex(userId, timedelta(minutes=30),value=token)
+        value = token
+        # print("User_token cached")
+    else:
+        value = value.decode("utf-8")
+    return value
