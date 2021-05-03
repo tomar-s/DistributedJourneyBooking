@@ -5,16 +5,19 @@ import mysql.connector as mysql
 ## it takes 3 required parameters 'host', 'user', 'passwd'
 db = mysql.connect(
     host = "localhost",
-    user = "admin",
-    passwd = "admin"
+    user = "root",
+    passwd = "example",
 )
+
+# Allow root user loging from anywhere
+# UPDATE mysql.user SET host='%' WHERE user='root';
 
 print(db) # it will print a connection object if everything is fine
 
 # create database
 mycursor = db.cursor()
 
-mycursor.execute("CREATE DATABASE mydatabase")
+mycursor.execute("CREATE DATABASE IF NOT EXISTS mydatabase")
 
 mycursor.execute("SHOW DATABASES")
 
