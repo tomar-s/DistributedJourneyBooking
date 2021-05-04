@@ -10,7 +10,7 @@ r = redis.Redis(host='redis', port=6379, db=0)
 mycursor = mydb.cursor()
 
 def get_token(userId):
-    query = "select user_token from user_profile where owner_unique_Id LIKE '{}'".format(userId)
+    query = "select user_token from USER_PROFILE where owner_unique_Id LIKE '{}'".format(userId)
     mycursor.execute(query)
     saved_token = None
     for x in mycursor:

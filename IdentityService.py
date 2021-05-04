@@ -50,6 +50,11 @@ def create_tables():
         mycursor.execute("CREATE TABLE IF NOT EXISTS ROUTE_DETAILS (routeId VARCHAR(255) PRIMARY KEY, source VARCHAR(255), destination VARCHAR(255))")
         mycursor.execute("CREATE TABLE IF NOT EXISTS BOOKINGS_AVAIL(timeslot INT, route_id VARCHAR(255), count INT CHECK (count BETWEEN 1 and 49), date_requested DATE)")
         mycursor.execute("CREATE TABLE IF NOT EXISTS USER_PROFILE(owner_unique_Id VARCHAR(255) PRIMARY KEY, user_token VARCHAR(255))")
+        query = "INSERT INTO ROUTE_DETAILS (routeId, source, destination) VALUES (%s, %s,%s)"
+        val = ("RD3", "Dublin", "Cork")
+ 
+        mycursor.execute(query, val)
+        mydb.commit()
     except Exception as e:
         print(e)
         return False

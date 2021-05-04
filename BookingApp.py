@@ -89,6 +89,7 @@ if __name__ == '__main__':
         db_setup = identity.create_databases()
         if db_setup:
             db_setup = identity.create_tables()
+            db_setup=True
             
     app.run('0.0.0.0',8080,debug=True)
     
