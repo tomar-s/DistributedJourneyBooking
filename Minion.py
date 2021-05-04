@@ -13,7 +13,7 @@ mycursor = mydb.cursor()
 def get_route_list(userId, token, s, d):
   status = identity.authenticate_user(userId, token)
   if status:
-    query = "select routeId from route_details where source LIKE '{}' and destination LIKE '{}'".format(s, d)
+    query = "select routeId from ROUTE_DETAILS where source LIKE '{}' and destination LIKE '{}'".format(s, d)
     mycursor.execute(query)
     number_of_rows = 0
     route_list = []
@@ -30,7 +30,7 @@ def get_route_list(userId, token, s, d):
 def update_route_info(userId, token, s, d, vehicle_number, timeslot, route_id, date_requested):
   status = identity.authenticate_user(userId, token)
   if status:
-    query = "select count from bookings_avail where timeslot = {} and route_id LIKE '{}' and date_requested LIKE '{}'".format(timeslot,route_id,date_requested)
+    query = "select count from BOOKINGS_AVAIL where timeslot = {} and route_id LIKE '{}' and date_requested LIKE '{}'".format(timeslot,route_id,date_requested)
     mycursor.execute(query)
     print(query)
     count = None
@@ -42,7 +42,7 @@ def update_route_info(userId, token, s, d, vehicle_number, timeslot, route_id, d
     if count and count < 50:
       route_avail = True
       try:
-        query = "update bookings_avail set count = count + 1 where timeslot = {} and route_id = '{}' and date_requested = '{}'".format(timeslot,route_id,date_requested)
+        query = "update BOOKINGS_AVAIL set count = count + 1 where timeslot = {} and route_id = '{}' and date_requested = '{}'".format(timeslot,route_id,date_requested)
         mycursor.execute(query)
         mydb.commit()
       except Exception as e:
@@ -53,7 +53,7 @@ def update_route_info(userId, token, s, d, vehicle_number, timeslot, route_id, d
     
     if not count:
       route_avail = True
-      query = "INSERT INTO bookings_avail (timeslot,route_id,count,date_requested) VALUES (%s, %s,%s,%s)"
+      query = "INSERT INTO BOOKINGS_AVAIL (timeslot,route_id,count,date_requested) VALUES (%s, %s,%s,%s)"
       val = (timeslot, route_id, 1, date_requested)
       mycursor.execute(query,val)
       mydb.commit()
@@ -71,7 +71,7 @@ def update_route_info(userId, token, s, d, vehicle_number, timeslot, route_id, d
 
 
 def insert_trip_details(tripId ,owner_unique_Id, source, destination, route_taken, vehicle_number):
-    query = "INSERT INTO trip_details (tripId ,owner_unique_Id, source, destination, route_taken, vehicle_number) VALUES (%s, %s,%s, %s,%s, %s)"
+    query = "INSERT INTO TRIP_DETAILS (tripId ,owner_unique_Id, source, destination, route_taken, vehicle_number) VALUES (%s, %s,%s, %s,%s, %s)"
     val = (tripId ,owner_unique_Id, source, destination, route_taken, vehicle_number)
     mycursor.execute(query, val)
     mydb.commit()

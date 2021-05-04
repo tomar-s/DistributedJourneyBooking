@@ -11,5 +11,5 @@ def get_Connection():
                 database=server["database"]
             )
             return mydb
-        except Exception:
-            print(Exception)
+        except Exception as e:
+            print(e)
