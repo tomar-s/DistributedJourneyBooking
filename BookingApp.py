@@ -5,8 +5,15 @@ import Minion as minion
 import IdentityService as identity
 import json
 import Constants as constants
+import py_eureka_client.eureka_client as eureka_client
+
 
 app = Flask(__name__)
+your_rest_server_port = 5000
+# The flowing code will register your server to eureka server and also start to send heartbeat every 30 seconds
+eureka_client.init(eureka_server="http://eurekaService:8761/",
+                   app_name="flask-app",
+                   instance_port=your_rest_server_port)
 
 @app.route('/route_list',methods=['POST'])
 def route_list():
@@ -91,5 +98,5 @@ if __name__ == '__main__':
             db_setup = identity.create_tables()
             db_setup=True
             
-    app.run('0.0.0.0',8080,debug=True)
+    app.run('0.0.0.0',debug=True)
     
