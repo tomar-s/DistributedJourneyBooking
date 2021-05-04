@@ -3,10 +3,9 @@ import mysql.connector as mysql
 
 ## connecting to the database using 'connect()' method
 ## it takes 3 required parameters 'host', 'user', 'passwd'
-db = mysql.connect(
-    host = "localhost",
-    user = "root",
-    passwd = "example",
+db = mysql.connect( host=server["host"],
+                user=server["user"],
+                password=server["password"]
 )
 
 # Allow root user loging from anywhere
@@ -17,7 +16,7 @@ print(db) # it will print a connection object if everything is fine
 # create database
 mycursor = db.cursor()
 
-mycursor.execute("CREATE DATABASE IF NOT EXISTS mydatabase")
+mycursor.execute("CREATE DATABASE IF NOT EXISTS bdteste")
 
 mycursor.execute("SHOW DATABASES")
 

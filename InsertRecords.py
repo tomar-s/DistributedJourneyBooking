@@ -5,10 +5,10 @@ inserts a row to the table 'trip_details' in the database 'mydatabase'
 import mysql.connector
 
 mydb = mysql.connector.connect(
-  host="localhost",
-  user="admin",
-  password="admin",
-  database="mydatabase"
+  host=server["host"],
+  user=server["user"],
+  password=server["password"],
+  database=server["database"]
 )
 
 mycursor = mydb.cursor()

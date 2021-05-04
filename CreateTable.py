@@ -1,11 +1,12 @@
 ## importing 'mysql.connector' as mysql for convenient
 import mysql.connector as mysql
+import Credentials as creds
 
 mydb = mysql.connect(
-  host="localhost",
-  user="admin",
-  password="admin",
-  database="mydatabase"
+  host=server["host"],
+  user=server["user"],
+  password=server["password"],
+  database=server["database"]
 )
 
 mycursor = mydb.cursor()
