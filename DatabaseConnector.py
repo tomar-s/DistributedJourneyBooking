@@ -12,4 +12,4 @@ def get_Connection():
             )
             return mydb
         except Exception:
-            continue
+            print(Exception)

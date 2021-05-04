@@ -1,10 +1,10 @@
 servers = [
 
     {
-        "host": "localhost",
-        "user":"admin",
-        "password":"admin",
-        "database":"mydatabase"
+        "host": "salesmysqldb",
+        "user":"root",
+        "password":"example",
+        "database":"bdteste"
     }
 ]
 

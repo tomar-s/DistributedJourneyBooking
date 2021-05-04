@@ -30,6 +30,7 @@ def route_list():
 
 @app.route('/register',methods=['POST'])
 def register():
+    print("goddddd")
 
     client_json = request.get_json(force=True)
 
@@ -73,6 +74,8 @@ def route_avail():
 
 @app.route('/health')
 def healthcheck():
+    print("hellooooo")
+    return "hello world"
     with app.app_context():
         print("All is well in port 8080")
         return jsonify(
@@ -81,4 +84,4 @@ def healthcheck():
 
 
 if __name__ == '__main__':
-    app.run(port=8080)
+    app.run('0.0.0.0',8080,debug=True)

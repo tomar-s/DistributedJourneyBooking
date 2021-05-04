@@ -5,7 +5,7 @@ import mysql.connector
 import DatabaseConnector as db
 
 mydb = db.get_Connection()
-r = redis.Redis(host='localhost', port=6379, db=0)
+r = redis.Redis(host='redis', port=6379, db=0)
 
 mycursor = mydb.cursor()
 
