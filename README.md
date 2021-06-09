@@ -1,1 +1,1 @@
-# DSGroup7
+# Distributed Journey Booking service 
